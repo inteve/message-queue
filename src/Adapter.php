@@ -5,7 +5,7 @@
 	namespace Inteve\MessageQueue;
 
 
-	interface IAdapter
+	interface Adapter
 	{
 		/**
 		 * @return \DateTimeImmutable

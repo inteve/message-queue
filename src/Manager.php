@@ -13,11 +13,11 @@
 		const FROM_ALL_QUEUES = 0;
 		const FROM_LISTED_ONLY = 1;
 
-		/** @var IAdapter */
+		/** @var Adapter */
 		private $adapter;
 
 
-		public function __construct(IAdapter $adapter)
+		public function __construct(Adapter $adapter)
 		{
 			$this->adapter = $adapter;
 		}

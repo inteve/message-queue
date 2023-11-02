@@ -5,7 +5,7 @@
 	namespace Inteve\MessageQueue;
 
 
-	class MemoryAdapter implements IAdapter
+	class MemoryAdapter implements Adapter
 	{
 		/** @var array<string, Message> */
 		private $messages = [];
