@@ -25,8 +25,8 @@
 		/** @var \DateTimeImmutable */
 		private $date;
 
-		/** @var int */
-		private $priority;
+		/** @var positive-int */
+		private $order;
 
 		/** @var \DateTimeImmutable */
 		private $created;
@@ -45,7 +45,7 @@
 		 * @param string $id
 		 * @param string $queue
 		 * @param array<mixed> $data
-		 * @param int $priority
+		 * @param positive-int $order
 		 * @param int $status
 		 * @param int $fails
 		 */
@@ -54,22 +54,18 @@
 			$queue,
 			array $data,
 			\DateTimeImmutable $date,
-			$priority,
+			$order,
 			\DateTimeImmutable $created,
 			$status,
 			\DateTimeImmutable $processed = NULL,
 			$fails
 		)
 		{
-			if ($priority < 0) {
-				throw new InvalidArgumentExpception('Priority must be 0 or higher.');
-			}
-
 			$this->id = $id;
 			$this->queue = $queue;
 			$this->data = $data;
 			$this->date = $date;
-			$this->priority = $priority;
+			$this->order = $order;
 			$this->created = $created;
 			$this->status = $status;
 			$this->processed = $processed;
@@ -114,11 +110,11 @@
 
 
 		/**
-		 * @return int
+		 * @return positive-int
 		 */
-		public function getPriority()
+		public function getOrder()
 		{
-			return $this->priority;
+			return $this->order;
 		}
 
 

@@ -66,13 +66,13 @@
 				}
 
 				if ($finalMessage !== NULL) {
-					$finalMessagePriority = $finalMessage->getPriority();
-					$messagePriority = $message->getPriority();
+					$finalMessageOrder = $finalMessage->getOrder();
+					$messageOrder = $message->getOrder();
 
-					if ($messagePriority > $finalMessagePriority) {
+					if ($messageOrder > $finalMessageOrder) {
 						continue;
 
-					} elseif (($messagePriority === $finalMessagePriority) && ($message->getDate() >= $finalMessage->getDate())) {
+					} elseif (($messageOrder === $finalMessageOrder) && ($message->getDate() >= $finalMessage->getDate())) {
 						continue;
 					}
 				}

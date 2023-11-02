@@ -34,10 +34,10 @@
 		/**
 		 * @param  string $queue
 		 * @param  array<mixed> $data
-		 * @param  int $priority
+		 * @param  positive-int $order
 		 * @return Message
 		 */
-		public function create($queue, array $data, \DateTimeImmutable $date = NULL, $priority = 0)
+		public function create($queue, array $data, \DateTimeImmutable $date = NULL, $order = 1)
 		{
 			$currentDate = $this->dateTimeFactory->create();
 			$message = new Message(
@@ -45,7 +45,7 @@
 				$queue,
 				$data,
 				$date !== NULL ? $date : $currentDate,
-				$priority,
+				$order,
 				$currentDate,
 				Message::STATUS_NEW,
 				NULL,
