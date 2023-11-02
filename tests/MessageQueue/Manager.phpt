@@ -198,5 +198,5 @@ test('Deferring', function () {
 	}
 
 	Assert::same(0, $message->getFails());
-	Assert::same(Message::STATUS_NEW, $message->getStatus());
+	Assert::same(Message::STATUS_DEFERRED, $message->getStatus());
 });

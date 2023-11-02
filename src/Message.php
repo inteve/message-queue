@@ -11,6 +11,7 @@
 		const STATUS_DONE = 1;
 		const STATUS_FAILED = 2;
 		const STATUS_PROCESSING = 3;
+		const STATUS_DEFERRED = 4;
 
 		/** @var string */
 		private $id;
@@ -197,7 +198,7 @@
 		 */
 		public function markAsDeferred(\DateTimeImmutable $processed, $minutes)
 		{
-			$this->status = self::STATUS_NEW;
+			$this->status = self::STATUS_DEFERRED;
 
 			$date = clone $processed;
 			$this->date = $this->calculateNewDate($date, $processed, $minutes, 5);
