@@ -8,12 +8,6 @@
 	interface Adapter
 	{
 		/**
-		 * @return \DateTimeImmutable
-		 */
-		function createDateTime();
-
-
-		/**
 		 * @return void
 		 */
 		function create(Message $message);

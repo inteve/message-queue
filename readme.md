@@ -27,8 +27,9 @@ Inteve\MessageQueue requires PHP 7.4.0 or later.
 $exceptionHandler = function (\Throwable $e) {
 	\Tracy\Debugger::log($e, \Tracy\Debugger::EXCEPTION);
 };
+$dateTimeFactory = new MyDateTimeFactory; // implementation of Phig\DateTimeFactory
 $adapter = new MemoryAdapter($exceptionHandler);
-$manager = new Manager($adapter);
+$manager = new Manager($adapter, $dateTimeFactory);
 ```
 
 ### Insert message

@@ -13,23 +13,14 @@
 		/** @var callable */
 		private $exceptionHandler;
 
-		/** @var \DateTimeZone */
-		private $timezone;
-
 
 		public function __construct(
 			callable $exceptionHandler
 		)
 		{
 			$this->exceptionHandler = $exceptionHandler;
-			$this->timezone = new \DateTimeZone('UTC');
 		}
 
-
-		public function createDateTime()
-		{
-			return new \DateTimeImmutable('now', $this->timezone);
-		}
 
 		public function create(Message $message)
 		{

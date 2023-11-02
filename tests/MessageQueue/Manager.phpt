@@ -18,7 +18,10 @@ test('Basic', function () {
 	};
 
 	$adapter = new MemoryAdapter(function () {});
-	$manager = new Manager($adapter);
+	$manager = new Manager(
+		$adapter,
+		\Inteve\MessageQueue\Tests\StaticDateTimeFactory::fromString('now')
+	);
 	Assert::true(count($logs) === 0);
 
 	$manager->fetch('testQueue', $logger);
@@ -46,7 +49,10 @@ test('Basic', function () {
 
 test('Multifetch - from ALL', function () {
 	$adapter = new MemoryAdapter(function () {});
-	$manager = new Manager($adapter);
+	$manager = new Manager(
+		$adapter,
+		\Inteve\MessageQueue\Tests\StaticDateTimeFactory::fromString('now')
+	);
 
 	$messageA = $manager->create('a', [
 		'value' => 'a',
@@ -77,7 +83,10 @@ test('Multifetch - from ALL', function () {
 
 test('Multifetch - from LISTED ONLY', function () {
 	$adapter = new MemoryAdapter(function () {});
-	$manager = new Manager($adapter);
+	$manager = new Manager(
+		$adapter,
+		\Inteve\MessageQueue\Tests\StaticDateTimeFactory::fromString('now')
+	);
 
 	$messageA = $manager->create('a', [
 		'value' => 'a',
@@ -112,7 +121,10 @@ test('Failing', function () {
 	};
 
 	$adapter = new MemoryAdapter(function () {});
-	$manager = new Manager($adapter);
+	$manager = new Manager(
+		$adapter,
+		\Inteve\MessageQueue\Tests\StaticDateTimeFactory::fromString('now')
+	);
 
 	$message = $manager->create('testQueue', [
 		'value' => 5,
@@ -139,7 +151,10 @@ test('Failing by Exception', function () {
 	};
 
 	$adapter = new MemoryAdapter(function () {});
-	$manager = new Manager($adapter);
+	$manager = new Manager(
+		$adapter,
+		\Inteve\MessageQueue\Tests\StaticDateTimeFactory::fromString('now')
+	);
 
 	$message = $manager->create('testQueue', [
 		'value' => 5,
@@ -166,7 +181,10 @@ test('Deferring', function () {
 	};
 
 	$adapter = new MemoryAdapter(function () {});
-	$manager = new Manager($adapter);
+	$manager = new Manager(
+		$adapter,
+		\Inteve\MessageQueue\Tests\StaticDateTimeFactory::fromString('now')
+	);
 
 	$message = $manager->create('testQueue', [
 		'value' => 5,

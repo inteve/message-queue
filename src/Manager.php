@@ -5,6 +5,7 @@
 	namespace Inteve\MessageQueue;
 
 	use Nette\Utils\Random;
+	use Phig\DateTimeFactory;
 
 
 	class Manager
@@ -16,10 +17,17 @@
 		/** @var Adapter */
 		private $adapter;
 
+		/** @var DateTimeFactory */
+		private $dateTimeFactory;
 
-		public function __construct(Adapter $adapter)
+
+		public function __construct(
+			Adapter $adapter,
+			DateTimeFactory $dateTimeFactory
+		)
 		{
 			$this->adapter = $adapter;
+			$this->dateTimeFactory = $dateTimeFactory;
 		}
 
 
@@ -31,7 +39,7 @@
 		 */
 		public function create($queue, array $data, \DateTimeImmutable $date = NULL, $priority = 0)
 		{
-			$currentDate = $this->adapter->createDateTime();
+			$currentDate = $this->dateTimeFactory->create();
 			$message = new Message(
 				Random::generate(16),
 				$queue,
@@ -57,7 +65,7 @@
 		public function fetch($queue, callable $handler)
 		{
 			$message = $this->adapter->fetchNext(
-				$this->adapter->createDateTime(),
+				$this->dateTimeFactory->create(),
 				self::FAIL_LIMIT,
 				[$queue]
 			);
@@ -78,7 +86,7 @@
 		{
 			for ($i = 0; $i < $limit; $i++) {
 				$message = $this->adapter->fetchNext(
-					$this->adapter->createDateTime(),
+					$this->dateTimeFactory->create(),
 					self::FAIL_LIMIT,
 					$fetchFrom === self::FROM_LISTED_ONLY ? array_keys($handlers) : NULL
 				);
@@ -152,7 +160,7 @@
 		 */
 		private function markAsDone(Message $message)
 		{
-			$message->markAsDone($this->adapter->createDateTime());
+			$message->markAsDone($this->dateTimeFactory->create());
 			$this->adapter->delete($message);
 		}
 
@@ -163,7 +171,7 @@
 		 */
 		private function markAsDeferred(Message $message, $minutes)
 		{
-			$message->markAsDeferred($this->adapter->createDateTime(), $minutes);
+			$message->markAsDeferred($this->dateTimeFactory->create(), $minutes);
 			$this->adapter->update($message);
 		}
 
@@ -173,7 +181,7 @@
 		 */
 		private function markAsFailed(Message $message)
 		{
-			$message->markAsFailed($this->adapter->createDateTime());
+			$message->markAsFailed($this->dateTimeFactory->create());
 			$this->adapter->update($message);
 		}
 	}
