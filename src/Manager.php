@@ -55,9 +55,7 @@
 		 */
 		public function import(callable $importer)
 		{
-			$this->adapter->transactional(function () use ($importer) {
-				$importer();
-			});
+			$importer();
 		}
 
 
@@ -121,24 +119,22 @@
 			$this->markAsProcessing($message);
 
 			try {
-				$this->adapter->transactional(function () use ($message, $handler) {
-					$result = new Result;
-					$handler($message->getData(), $result);
+				$result = new Result;
+				$handler($message->getData(), $result);
 
-					if ($result->isUndefined()) {
-						$result->done();
-					}
+				if ($result->isUndefined()) {
+					$result->done();
+				}
 
-					if ($result->isDone()) {
-						$this->markAsDone($message);
+				if ($result->isDone()) {
+					$this->markAsDone($message);
 
-					} elseif ($result->isFailed()) {
-						$this->markAsFailed($message);
+				} elseif ($result->isFailed()) {
+					$this->markAsFailed($message);
 
-					} elseif ($result->isDeferred()) {
-						$this->markAsDeferred($message, (int) $result->getDeferInterval());
-					}
-				});
+				} elseif ($result->isDeferred()) {
+					$this->markAsDeferred($message, (int) $result->getDeferInterval());
+				}
 
 			} catch (\Exception $e) {
 				$this->markAsFailed($message);

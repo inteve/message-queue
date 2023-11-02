@@ -93,12 +93,6 @@
 		}
 
 
-		public function transactional(callable $handler)
-		{
-			$handler();
-		}
-
-
 		public function logException($e)
 		{
 			($this->exceptionHandler)($e);

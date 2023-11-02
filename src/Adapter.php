@@ -41,12 +41,6 @@
 
 
 		/**
-		 * @return void
-		 */
-		function transactional(callable $handler);
-
-
-		/**
 		 * @param  \Exception|\Throwable $e
 		 * @return void
 		 */
