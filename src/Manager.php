@@ -50,16 +50,6 @@
 
 
 		/**
-		 * @param  callable $importer
-		 * @return void
-		 */
-		public function import(callable $importer)
-		{
-			$importer();
-		}
-
-
-		/**
 		 * @param  string $queue
 		 * @param  callable $handler
 		 * @return void
