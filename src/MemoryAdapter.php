@@ -88,7 +88,7 @@
 		}
 
 
-		public function logException($e)
+		public function logException(\Throwable $e): void
 		{
 			($this->exceptionHandler)($e);
 		}

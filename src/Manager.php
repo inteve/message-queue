@@ -138,10 +138,6 @@
 					$this->markAsDeferred($message, (int) $result->getDeferInterval());
 				}
 
-			} catch (\Exception $e) {
-				$this->markAsFailed($message);
-				$this->adapter->logException($e);
-
 			} catch (\Throwable $e) {
 				$this->markAsFailed($message);
 				$this->adapter->logException($e);

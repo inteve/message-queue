@@ -27,9 +27,5 @@
 		): ?Message;
 
 
-		/**
-		 * @param  \Exception|\Throwable $e
-		 * @return void
-		 */
-		function logException($e);
+		function logException(\Throwable $e): void;
 	}
