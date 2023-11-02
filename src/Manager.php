@@ -68,10 +68,10 @@
 		 */
 		public function fetch($queue, callable $handler)
 		{
-			$message = $this->adapter->fetchFromQueue(
-				$queue,
+			$message = $this->adapter->fetchNext(
 				$this->adapter->createDateTime(),
-				self::FAIL_LIMIT
+				self::FAIL_LIMIT,
+				[$queue]
 			);
 
 			if ($message !== NULL) {

@@ -32,15 +32,6 @@
 
 
 		/**
-		 * @param  string $queue
-		 * @param  \DateTimeImmutable $currentDate
-		 * @param  int $failLimit
-		 * @return Message|NULL
-		 */
-		function fetchFromQueue($queue, \DateTimeImmutable $currentDate, $failLimit);
-
-
-		/**
 		 * @param  \DateTimeImmutable $currentDate
 		 * @param  int $failLimit
 		 * @param  string[]|NULL $queues

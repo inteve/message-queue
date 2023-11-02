@@ -55,12 +55,6 @@
 		}
 
 
-		public function fetchFromQueue($queue, \DateTimeImmutable $currentDate, $failLimit)
-		{
-			return $this->fetchNext($currentDate, $failLimit, [$queue]);
-		}
-
-
 		public function fetchNext(\DateTimeImmutable $currentDate, $failLimit, ?array $queues = NULL)
 		{
 			$finalMessage = NULL;
