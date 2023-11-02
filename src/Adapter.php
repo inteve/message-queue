@@ -7,31 +7,24 @@
 
 	interface Adapter
 	{
-		/**
-		 * @return void
-		 */
-		function create(Message $message);
+		function create(Message $message): void;
+
+
+		function update(Message $message): void;
+
+
+		function delete(Message $message): void;
 
 
 		/**
-		 * @return void
-		 */
-		function update(Message $message);
-
-
-		/**
-		 * @return void
-		 */
-		function delete(Message $message);
-
-
-		/**
-		 * @param  \DateTimeImmutable $currentDate
-		 * @param  int $failLimit
+		 * @param  positive-int $failLimit
 		 * @param  string[]|NULL $queues
-		 * @return Message|NULL
 		 */
-		function fetchNext(\DateTimeImmutable $currentDate, $failLimit, array $queues = NULL);
+		function fetchNext(
+			\DateTimeImmutable $currentDate,
+			int $failLimit,
+			array $queues = NULL
+		): ?Message;
 
 
 		/**

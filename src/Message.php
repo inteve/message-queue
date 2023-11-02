@@ -13,10 +13,10 @@
 		const STATUS_PROCESSING = 3;
 		const STATUS_DEFERRED = 4;
 
-		/** @var string */
+		/** @var non-empty-string */
 		private $id;
 
-		/** @var string */
+		/** @var non-empty-string */
 		private $queue;
 
 		/** @var array<mixed> */
@@ -31,34 +31,34 @@
 		/** @var \DateTimeImmutable */
 		private $created;
 
-		/** @var int */
+		/** @var self::STATUS_* */
 		private $status;
 
 		/** @var \DateTimeImmutable|NULL */
 		private $processed;
 
-		/** @var int */
+		/** @var non-negative-int */
 		private $fails;
 
 
 		/**
-		 * @param string $id
-		 * @param string $queue
+		 * @param non-empty-string $id
+		 * @param non-empty-string $queue
 		 * @param array<mixed> $data
 		 * @param positive-int $order
-		 * @param int $status
-		 * @param int $fails
+		 * @param self::STATUS_* $status
+		 * @param non-negative-int $fails
 		 */
 		public function __construct(
-			$id,
-			$queue,
+			string $id,
+			string $queue,
 			array $data,
 			\DateTimeImmutable $date,
-			$order,
+			int $order,
 			\DateTimeImmutable $created,
-			$status,
+			int $status,
 			\DateTimeImmutable $processed = NULL,
-			$fails
+			int $fails
 		)
 		{
 			$this->id = $id;
@@ -74,18 +74,18 @@
 
 
 		/**
-		 * @return string
+		 * @return non-empty-string
 		 */
-		public function getId()
+		public function getId(): string
 		{
 			return $this->id;
 		}
 
 
 		/**
-		 * @return string
+		 * @return non-empty-string
 		 */
-		public function getQueue()
+		public function getQueue(): string
 		{
 			return $this->queue;
 		}
@@ -94,16 +94,13 @@
 		/**
 		 * @return array<mixed>
 		 */
-		public function getData()
+		public function getData(): array
 		{
 			return $this->data;
 		}
 
 
-		/**
-		 * @return \DateTimeImmutable
-		 */
-		public function getDate()
+		public function getDate(): \DateTimeImmutable
 		{
 			return $this->date;
 		}
@@ -112,71 +109,56 @@
 		/**
 		 * @return positive-int
 		 */
-		public function getOrder()
+		public function getOrder(): int
 		{
 			return $this->order;
 		}
 
 
-		/**
-		 * @return \DateTimeImmutable
-		 */
-		public function getCreated()
+		public function getCreated(): \DateTimeImmutable
 		{
 			return $this->created;
 		}
 
 
 		/**
-		 * @return int
+		 * @return self::STATUS_*
 		 */
-		public function getStatus()
+		public function getStatus(): int
 		{
 			return $this->status;
 		}
 
 
-		/**
-		 * @return \DateTimeImmutable|NULL
-		 */
-		public function getProcessed()
+		public function getProcessed(): ?\DateTimeImmutable
 		{
 			return $this->processed;
 		}
 
 
 		/**
-		 * @return int
+		 * @return non-negative-int
 		 */
-		public function getFails()
+		public function getFails(): int
 		{
 			return $this->fails;
 		}
 
 
-		/**
-		 * @return void
-		 */
-		public function markAsProcessing()
+		public function markAsProcessing(): void
 		{
 			$this->status = self::STATUS_PROCESSING;
 		}
 
 
-		/**
-		 * @return void
-		 */
-		public function markAsDone(\DateTimeImmutable $processed)
+		public function markAsDone(\DateTimeImmutable $processed): void
 		{
 			$this->status = self::STATUS_DONE;
 			$this->processed = $processed;
 		}
 
 
-		/**
-		 * @return void
-		 */
-		public function markAsFailed(\DateTimeImmutable $processed)
+		public function markAsFailed(\DateTimeImmutable $processed): void
 		{
 			$this->status = self::STATUS_FAILED;
 			$this->fails += 1;
@@ -189,10 +171,9 @@
 
 
 		/**
-		 * @param  int $minutes
-		 * @return void
+		 * @param  positive-int $minutes
 		 */
-		public function markAsDeferred(\DateTimeImmutable $processed, $minutes)
+		public function markAsDeferred(\DateTimeImmutable $processed, int $minutes): void
 		{
 			$this->status = self::STATUS_DEFERRED;
 
@@ -203,11 +184,15 @@
 
 
 		/**
-		 * @param  int $minutesToMove
-		 * @param  int $stepInMinutes
-		 * @return \DateTimeImmutable
+		 * @param  positive-int $minutesToMove
+		 * @param  positive-int $stepInMinutes
 		 */
-		private function calculateNewDate(\DateTimeImmutable $date, \DateTimeImmutable $processed, $minutesToMove, $stepInMinutes)
+		private function calculateNewDate(
+			\DateTimeImmutable $date,
+			\DateTimeImmutable $processed,
+			int $minutesToMove,
+			int $stepInMinutes
+		): \DateTimeImmutable
 		{
 			// musime docilit toho, aby novy cas byl za $processed
 			$date = $date->add(new \DateInterval('PT' . $minutesToMove . 'M'));

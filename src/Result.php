@@ -14,82 +14,67 @@
 		/** @var int|NULL */
 		private $status;
 
-		/** @var int|NULL */
+		/** @var positive-int|NULL */
 		private $deferInterval;
 
 
-		/**
-		 * @return bool
-		 */
-		public function isUndefined()
+		public function isUndefined(): bool
 		{
 			return $this->status === NULL;
 		}
 
 
-		/**
-		 * @return void
-		 */
-		public function done()
+		public function done(): void
 		{
 			$this->setStatus(self::STATUS_DONE);
 		}
 
 
-		/**
-		 * @return bool
-		 */
-		public function isDone()
+		public function isDone(): bool
 		{
 			return $this->status === self::STATUS_DONE;
 		}
 
 
-		/**
-		 * @return void
-		 */
-		public function fail()
+		public function fail(): void
 		{
 			$this->setStatus(self::STATUS_FAILED);
 		}
 
 
-		/**
-		 * @return bool
-		 */
-		public function isFailed()
+		public function isFailed(): bool
 		{
 			return $this->status === self::STATUS_FAILED;
 		}
 
 
 		/**
-		 * @param  int $minutes
-		 * @return void
+		 * @param  positive-int $minutes
 		 */
-		public function defer($minutes)
+		public function defer(int $minutes): void
 		{
 			$this->setStatus(self::STATUS_DEFERRED);
 			$this->deferInterval = $minutes;
 		}
 
 
-		/**
-		 * @return bool
-		 */
-		public function isDeferred()
+		public function isDeferred(): bool
 		{
 			return $this->status === self::STATUS_DEFERRED;
 		}
 
 
 		/**
-		 * @return int|NULL
+		 * @return positive-int
 		 */
-		public function getDeferInterval()
+		public function getDeferInterval(): int
 		{
 			if (!$this->isDeferred()) {
 				throw new InvalidCallExpception('Status must be deferred.');
+			}
+
+			if ($this->deferInterval === NULL) {
+				throw new InvalidCallExpception('Missing deferInterval.');
 			}
 
 			return $this->deferInterval;
@@ -98,9 +83,8 @@
 
 		/**
 		 * @param  int $status
-		 * @return void
 		 */
-		private function setStatus($status)
+		private function setStatus(int $status): void
 		{
 			if ($this->status !== NULL) {
 				throw new InvalidCallExpception('Status is already setted.');

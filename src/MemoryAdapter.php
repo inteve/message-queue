@@ -22,7 +22,7 @@
 		}
 
 
-		public function create(Message $message)
+		public function create(Message $message): void
 		{
 			if (isset($this->messages[$message->getId()])) {
 				throw new InvalidArgumentExpception("Message with ID '{$message->getId()}' already exists.");
@@ -31,7 +31,7 @@
 			$this->messages[$message->getId()] = $message;
 		}
 
-		public function update(Message $message)
+		public function update(Message $message): void
 		{
 			if (!isset($this->messages[$message->getId()])) {
 				throw new InvalidArgumentExpception("Missing message with ID '{$message->getId()}'.");
@@ -40,13 +40,17 @@
 			$this->messages[$message->getId()] = $message;
 		}
 
-		public function delete(Message $message)
+		public function delete(Message $message): void
 		{
 			unset($this->messages[$message->getId()]);
 		}
 
 
-		public function fetchNext(\DateTimeImmutable $currentDate, $failLimit, ?array $queues = NULL)
+		public function fetchNext(
+			\DateTimeImmutable $currentDate,
+			int $failLimit,
+			?array $queues = NULL
+		): ?Message
 		{
 			$finalMessage = NULL;
 

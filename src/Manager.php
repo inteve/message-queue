@@ -32,16 +32,22 @@
 
 
 		/**
-		 * @param  string $queue
+		 * @param  non-empty-string $queue
 		 * @param  array<mixed> $data
 		 * @param  positive-int $order
-		 * @return Message
 		 */
-		public function create($queue, array $data, \DateTimeImmutable $date = NULL, $order = 1)
+		public function create(
+			string $queue,
+			array $data,
+			?\DateTimeImmutable $date = NULL,
+			$order = 1
+		): Message
 		{
 			$currentDate = $this->dateTimeFactory->create();
+			$id = Random::generate(16);
+			assert($id !== '');
 			$message = new Message(
-				Random::generate(16),
+				$id,
 				$queue,
 				$data,
 				$date !== NULL ? $date : $currentDate,
@@ -58,11 +64,9 @@
 
 
 		/**
-		 * @param  string $queue
-		 * @param  callable $handler
-		 * @return void
+		 * @param  non-empty-string $queue
 		 */
-		public function fetch($queue, callable $handler)
+		public function fetch(string $queue, callable $handler): void
 		{
 			$message = $this->adapter->fetchNext(
 				$this->dateTimeFactory->create(),
@@ -77,12 +81,15 @@
 
 
 		/**
-		 * @param  array<string, callable> $handlers
-		 * @param  int $limit
-		 * @param  int $fetchFrom
-		 * @return void
+		 * @param  array<non-empty-string, callable> $handlers
+		 * @param  positive-int $limit
+		 * @param  self::FROM_* $fetchFrom
 		 */
-		public function multiFetch(array $handlers, $limit, $fetchFrom = self::FROM_ALL_QUEUES)
+		public function multiFetch(
+			array $handlers,
+			int $limit,
+			int $fetchFrom = self::FROM_ALL_QUEUES
+		): void
 		{
 			for ($i = 0; $i < $limit; $i++) {
 				$message = $this->adapter->fetchNext(
@@ -109,10 +116,7 @@
 		}
 
 
-		/**
-		 * @return void
-		 */
-		private function processMessage(Message $message, callable $handler)
+		private function processMessage(Message $message, callable $handler): void
 		{
 			$this->markAsProcessing($message);
 
@@ -145,20 +149,14 @@
 		}
 
 
-		/**
-		 * @return void
-		 */
-		private function markAsProcessing(Message $message)
+		private function markAsProcessing(Message $message): void
 		{
 			$message->markAsProcessing();
 			$this->adapter->update($message);
 		}
 
 
-		/**
-		 * @return void
-		 */
-		private function markAsDone(Message $message)
+		private function markAsDone(Message $message): void
 		{
 			$message->markAsDone($this->dateTimeFactory->create());
 			$this->adapter->delete($message);
@@ -166,20 +164,16 @@
 
 
 		/**
-		 * @param  int $minutes
-		 * @return void
+		 * @param  positive-int $minutes
 		 */
-		private function markAsDeferred(Message $message, $minutes)
+		private function markAsDeferred(Message $message, int $minutes): void
 		{
 			$message->markAsDeferred($this->dateTimeFactory->create(), $minutes);
 			$this->adapter->update($message);
 		}
 
 
-		/**
-		 * @return void
-		 */
-		private function markAsFailed(Message $message)
+		private function markAsFailed(Message $message): void
 		{
 			$message->markAsFailed($this->dateTimeFactory->create());
 			$this->adapter->update($message);
