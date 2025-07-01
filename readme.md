@@ -18,7 +18,7 @@ Simple message queue
 composer require inteve/message-queue
 ```
 
-Inteve\MessageQueue requires PHP 7.4.0 or later.
+Inteve\MessageQueue requires PHP 8.0 or later.
 
 
 ## Usage
