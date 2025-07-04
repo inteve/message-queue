@@ -23,7 +23,7 @@
 		function fetchNext(
 			\DateTimeImmutable $currentDate,
 			int $failLimit,
-			array $queues = NULL
+			?array $queues = NULL
 		): ?Message;
 
 

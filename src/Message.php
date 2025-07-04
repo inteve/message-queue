@@ -57,7 +57,7 @@
 			int $order,
 			\DateTimeImmutable $created,
 			int $status,
-			\DateTimeImmutable $processed = NULL,
+			?\DateTimeImmutable $processed,
 			int $fails
 		)
 		{
